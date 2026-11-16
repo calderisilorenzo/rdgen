@@ -96,6 +96,23 @@ jobs:
         with:
           path: .
 
+      - name: Fix secrets.zip location
+        shell: pwsh
+        run: |
+         Get-ChildItem -Recurse
+
+         $zip = Get-ChildItem -Recurse -Filter "secrets.zip" | Select-Object -First 1
+
+         if ($null -eq $zip) {
+            Write-Error "secrets.zip not found"
+            exit 1
+          }
+
+          Copy-Item $zip.FullName ".\secrets.zip" -Force
+
+          Write-Host "Copied:"
+          Get-ChildItem .\secrets.zip
+
       - name: Debug artifact files
         shell: pwsh
         run: |
