@@ -96,8 +96,19 @@ jobs:
         
       - uses: actions/download-artifact@v4
         with:
-          name: encrypted-secrets-zip
+          path: .
+          
+      - name: Debug artifact files
+        shell: pwsh
+        run: |
+          Write-Host "=== CURRENT DIRECTORY ==="
+          Get-Location
 
+          Write-Host "=== ZIP FILES ==="
+          Get-ChildItem -Recurse *.zip -ErrorAction SilentlyContinue
+
+          Write-Host "=== ALL FILES ==="
+          Get-ChildItem -Recurse
       - name: Load Secrets
         uses: ./.github/actions/decrypt-secrets
         with:
