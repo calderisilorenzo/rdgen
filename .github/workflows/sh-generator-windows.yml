@@ -515,6 +515,28 @@ jobs:
           } else {
             Write-Host "Error: printer-adapter folder not found in repository."
           }
+      - name: Debug FFmpeg
+        shell: pwsh
+        run: |
+            Write-Host "========== FFMPEG CHECK =========="
+
+            dir C:\vcpkg\installed\x64-windows-static\include\libavcodec\avcodec.h
+
+            dir C:\vcpkg\installed\x64-windows-static\include\libavutil\attributes.h
+
+            dir C:\vcpkg\installed\x64-windows-static\lib\avcodec.lib
+
+            dir C:\vcpkg\installed\x64-windows-static\lib\avutil.lib
+
+            Write-Host "========== ENV =========="
+
+            echo "VCPKG_ROOT=$env:VCPKG_ROOT"
+            echo "VCINSTALLDIR=$env:VCINSTALLDIR"
+            echo "WindowsSdkDir=$env:WindowsSdkDir"
+            echo "INCLUDE=$env:INCLUDE"
+            echo "LIB=$env:LIB"
+
+            where.exe cl
 
       - name: Build rustdesk
         run: |
