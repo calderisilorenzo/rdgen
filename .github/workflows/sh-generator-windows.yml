@@ -538,6 +538,19 @@ jobs:
 
             where.exe cl
 
+            Write-Host "========== VISUAL STUDIO =========="
+
+            & "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\Tools\Launch-VsDevShell.ps1"
+
+            Write-Host "POST VSDEV"
+
+            echo "VCINSTALLDIR=$env:VCINSTALLDIR"
+            echo "WindowsSdkDir=$env:WindowsSdkDir"
+            echo "INCLUDE=$env:INCLUDE"
+            echo "LIB=$env:LIB"
+
+            where.exe cl
+
       - name: Build rustdesk
         run: |
           # Windows: build RustDesk
