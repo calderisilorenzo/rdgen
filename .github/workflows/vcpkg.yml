@@ -56,10 +56,7 @@ jobs:
         run: |
          cd "${{ github.workspace }}"
 
-         ./vcpkg/vcpkg install \
-         --triplet ${{ matrix.job.vcpkg-triplet }} \
-         --overlay-ports="${{ github.workspace }}/res/vcpkg" \
-         --x-install-root="${{ github.workspace }}/installed"
+         ./vcpkg/vcpkg install --triplet ${{ matrix.job.vcpkg-triplet }} --overlay-ports="${{ github.workspace }}/res/vcpkg" --x-install-root="${{ github.workspace }}/installed"
 
          echo "=== INSTALLED FFMPEG ==="
 
