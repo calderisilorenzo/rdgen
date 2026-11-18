@@ -527,7 +527,15 @@ jobs:
             dir C:\vcpkg\installed\x64-windows-static\lib\avcodec.lib
 
             dir C:\vcpkg\installed\x64-windows-static\lib\avutil.lib
+            Write-Host "========== FFMPEG VERSION =========="
 
+            C:\vcpkg\vcpkg.exe list | findstr ffmpeg
+
+            Write-Host "========== FFMPEG HEADERS =========="
+
+            findstr /C:"#define LIBAVCODEC_VERSION_MAJOR" C:\vcpkg\installed\x64-windows-static\include\libavcodec\version_major.h
+
+            findstr /C:"#define LIBAVUTIL_VERSION_MAJOR" C:\vcpkg\installed\x64-windows-static\include\libavutil\version_major.h
             Write-Host "========== ENV =========="
 
             echo "VCPKG_ROOT=$env:VCPKG_ROOT"
