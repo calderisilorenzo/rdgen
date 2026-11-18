@@ -52,13 +52,19 @@ jobs:
 
       - name: Install vcpkg dependencies
         env:
-          VCPKG_DEFAULT_HOST_TRIPLET: ${{ matrix.job.vcpkg-triplet }}
+         VCPKG_DEFAULT_HOST_TRIPLET: ${{ matrix.job.vcpkg-triplet }}
         run: |
-          ./vcpkg/vcpkg install \
-            --triplet ${{ matrix.job.vcpkg-triplet }} \
-            --x-install-root="${{ github.workspace }}/installed"
-        shell: bash
+         cd "${{ github.workspace }}"
 
+         ./vcpkg/vcpkg install \
+         --triplet ${{ matrix.job.vcpkg-triplet }} \
+         --overlay-ports="${{ github.workspace }}/res/vcpkg" \
+         --x-install-root="${{ github.workspace }}/installed"
+
+         echo "=== INSTALLED FFMPEG ==="
+
+         ./vcpkg/vcpkg list | grep ffmpeg || true
+         shell: bash
       - name: Upload Installed Dependencies
         uses: actions/upload-artifact@v4
         with:
