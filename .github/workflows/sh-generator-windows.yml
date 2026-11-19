@@ -564,11 +564,7 @@ jobs:
         run: |
           Write-Host "========== PATCH HWCODEC =========="
 
-          $decodeFiles = Get-ChildItem "$env:USERPROFILE\.cargo\git\checkouts" `
-            
-            -Recurse `
-            -Filter "ffmpeg_ram_decode.cpp" `
-            -ErrorAction SilentlyContinue
+          $decodeFiles = Get-ChildItem "$env:USERPROFILE\.cargo\git\checkouts" -Recurse -Filter "ffmpeg_ram_decode.cpp" -ErrorAction SilentlyContinue
             
             Write-Host "Found decode files: $($decodeFiles.Count)"
             
@@ -586,11 +582,7 @@ jobs:
             Set-Content $file.FullName $content
           }
 
-          $utilFiles = Get-ChildItem "$env:USERPROFILE\.cargo\git\checkouts" `
-          
-            -Recurse `
-            -Filter "util.cpp" `
-            -ErrorAction SilentlyContinue
+          $utilFiles = Get-ChildItem "$env:USERPROFILE\.cargo\git\checkouts" -Recurse -Filter "util.cpp" -ErrorAction SilentlyContinue
             
             Write-Host "Found util files: $($utilFiles.Count)"
 
