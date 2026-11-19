@@ -60,6 +60,15 @@ jobs:
 
           ./vcpkg/vcpkg.exe install --triplet "${{ matrix.job.vcpkg-triplet }}" --overlay-ports="${{ github.workspace }}/res/vcpkg" --x-install-root="${{ github.workspace }}/installed"
 
+          echo "===== MFX CHECK ====="
+
+          find installed -iname "*mfx*"
+          find installed -iname "*vpl*"
+
+          ls -R installed/*/lib | grep -Ei "mfx|vpl" || true
+
+          ./vcpkg/vcpkg.exe list
+
           echo "=== INSTALLED FFMPEG ==="
 
           ./vcpkg/vcpkg.exe list | grep ffmpeg || true
