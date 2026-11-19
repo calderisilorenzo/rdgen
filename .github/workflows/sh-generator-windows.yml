@@ -527,6 +527,20 @@ jobs:
             dir C:\vcpkg\installed\x64-windows-static\lib\avcodec.lib
 
             dir C:\vcpkg\installed\x64-windows-static\lib\avutil.lib
+            Write-Host "========== LIBMFX CHECK =========="
+
+            dir C:\vcpkg\installed\x64-windows-static\lib\libmfx.lib
+
+            dir C:\vcpkg\installed\x64-windows-static\debug\lib\libmfx.lib
+
+            Write-Host "========== MFX INCLUDE =========="
+
+            dir C:\vcpkg\installed\x64-windows-static\include\mfx
+
+            Write-Host "========== MFX FILES =========="
+
+            Get-ChildItem C:\vcpkg\installed\x64-windows-static\lib |
+            Where-Object { $_.Name -match "mfx" }
             Write-Host "========== FFMPEG VERSION =========="
 
             C:\vcpkg\vcpkg.exe list | findstr ffmpeg
