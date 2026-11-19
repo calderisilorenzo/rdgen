@@ -558,7 +558,63 @@ jobs:
             echo "LIB=$env:LIB"
 
             where.exe cl
+            
+      - name: Patch hwcodec compatibility
+        shell: pwsh
+        run: |
+          Write-Host "========== PATCH HWCODEC =========="
 
+          $decodeFiles = Get-ChildItem "$env:USERPROFILE\.cargo\git\checkouts" `
+            
+            -Recurse `
+            -Filter "ffmpeg_ram_decode.cpp" `
+            -ErrorAction SilentlyContinue
+            
+            Write-Host "Found decode files: $($decodeFiles.Count)"
+            
+          foreach ($file in $decodeFiles) {
+
+            Write-Host "Patching $($file.FullName)"
+
+            $content = Get-Content $file.FullName -Raw
+
+            $content = $content.Replace(
+              "frame_->key_frame",
+              "((frame_->pict_type == AV_PICTURE_TYPE_I) ? 1 : 0)"
+            )
+
+            Set-Content $file.FullName $content
+          }
+
+          $utilFiles = Get-ChildItem "$env:USERPROFILE\.cargo\git\checkouts" `
+          
+            -Recurse `
+            -Filter "util.cpp" `
+            -ErrorAction SilentlyContinue
+            
+            Write-Host "Found util files: $($utilFiles.Count)"
+
+          foreach ($file in $utilFiles) {
+
+            Write-Host "Patching profiles in $($file.FullName)"
+
+            $content = Get-Content $file.FullName -Raw
+
+            $content = $content.Replace(
+              "FF_PROFILE_H264_HIGH",
+              "AV_PROFILE_H264_HIGH"
+            )
+
+            $content = $content.Replace(
+              "FF_PROFILE_HEVC_MAIN",
+              "AV_PROFILE_HEVC_MAIN"
+            )
+
+            Set-Content $file.FullName $content
+          }
+
+          Write-Host "========== PATCH COMPLETE =========="
+          
       - name: Build rustdesk
         run: |
           # Windows: build RustDesk
