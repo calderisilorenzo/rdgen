@@ -621,6 +621,17 @@ jobs:
 
           Write-Host "========== PATCH COMPLETE =========="
           
+      - name: Inspect hwcodec build scripts
+        shell: pwsh
+        run: |
+         Write-Host "========== BUILD.RS FILES =========="
+
+         Get-ChildItem "$env:USERPROFILE\.cargo\git\checkouts" -Recurse -Filter build.rs -ErrorAction SilentlyContinue |
+         ForEach-Object {
+         Write-Host ""
+         Write-Host "FILE: $($_.FullName)"
+         Select-String -Path $_.FullName -Pattern "cargo:rustc-link-lib|cargo:rustc-link-search|swresample|mfuuid|mfplat|mf.lib" -ErrorAction SilentlyContinue
+         }    
       - name: Build rustdesk
         run: |
           # Windows: build RustDesk
